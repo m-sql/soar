@@ -1,16 +1,15 @@
 # SOAR 源码安装
 ## 依赖软件
 ### 一般依赖
-Go 1.10+
-
-git
+* Go 1.10+
+* git
 ## 高级依赖（仅面向开发人员）
+* mysql 客户端与容器中MySQL版本相同，避免由于认证导致无法连接问题
+* docker MySQL Server测试容器管理
+* govendor Go包管理
+* retool 依赖外部代码质量静态检查工具二进制文件管理
+##### 生成二进制文件
 ```
-mysql 客户端版本需要与容器中MySQL版本相同，避免出现由于认证原因导致无法连接问题
-docker MySQL Server测试容器管理
-govendor Go包管理
-retool 依赖外部代码质量静态检查工具二进制文件管理
-生成二进制文件
 go get -d https://github.com/m-sql/soar
 cd ${GOPATH}/src/github.com/m-sql/soar && make
 ```
