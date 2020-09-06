@@ -434,7 +434,7 @@ func init() {
 		},
 		"COL.001": {
 			Item:     "COL.001",
-			Severity: "L1",
+			Severity: "L0",
 			Summary:  "不建议使用 SELECT * 类型查询",
 			Content:  `当表结构变更时，使用 * 通配符选择所有列将导致查询的含义和行为会发生更改，可能导致查询返回更多的数据。`,
 			Case:     "select * from tbl where id=1",
@@ -928,7 +928,7 @@ func init() {
 		},
 		"RES.002": {
 			Item:     "RES.002",
-			Severity: "L4",
+			Severity: "L0",
 			Summary:  "未使用 ORDER BY 的 LIMIT 查询",
 			Content:  `没有 ORDER BY 的 LIMIT 会导致非确定性的结果，这取决于查询执行计划。`,
 			Case:     "select col1,col2 from tbl where name=xx limit 10",

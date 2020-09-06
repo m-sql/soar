@@ -34,3 +34,4 @@ make release 生成Linux, Windows, Mac发布版本
 ```
 echo 'select * from film' | ./soar
 ```
+
