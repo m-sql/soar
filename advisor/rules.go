@@ -200,6 +200,15 @@ func init() {
 			Case:     "SELECT * FROM sakila.film WHERE length >= '60';",
 			Func:     (*Query4Audit).RuleOK, // 该建议在IndexAdvisor中给，RuleImplicitConversion
 		},
+		//2020/09/06 lucklidi@126.com
+		"ARG.0031": {
+			Item:     "ARG.0031",
+			Severity: "L0",
+			Summary:  "参数比较包含隐式转换，因为定义字段为整型，所以依然可以使用索引",
+			Content:  "隐式类型转换有无法命中索引的风险，在高并发、大数据量的情况下，命不中索引带来的后果非常严重。",
+			Case:     "SELECT * FROM sakila.film WHERE length >= '60';",
+			Func:     (*Query4Audit).RuleOK, // 该建议在IndexAdvisor中给，RuleImplicitConversion
+		},
 		"ARG.004": {
 			Item:     "ARG.004",
 			Severity: "L4",

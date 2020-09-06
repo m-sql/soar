@@ -172,6 +172,7 @@ func (idxAdv *IndexAdvisor) RuleImplicitConversion() Rule {
 	}
 
 	var content []string
+	var isThirtyOne = true
 	conditions := ast.FindAllCondition(idxAdv.Ast)
 	for _, cond := range conditions {
 		var colList []*common.Column
@@ -334,7 +335,9 @@ func (idxAdv *IndexAdvisor) RuleImplicitConversion() Rule {
 
 					c := fmt.Sprintf("%s表中列%s的定义是 %s 而不是 %s。",
 						colList[0].Table, colList[0].Name, colList[0].DataType, typNameMap[val.Type])
-
+					if typNameMap[val.Type] == "int" {
+						isThirtyOne = false
+					}
 					common.Log.Debug("Implicit data type conversion: %s", c)
 					content = append(content, c)
 				}
@@ -347,7 +350,11 @@ func (idxAdv *IndexAdvisor) RuleImplicitConversion() Rule {
 		}
 	}
 	if len(content) > 0 {
-		rule = HeuristicRules["ARG.003"]
+		if isThirtyOne {
+			rule = HeuristicRules["ARG.0031"]
+		} else {
+			rule = HeuristicRules["ARG.003"]
+		}
 		rule.Content = strings.Join(common.RemoveDuplicatesItem(content), " ")
 	}
 	return rule
