@@ -928,7 +928,7 @@ func init() {
 		},
 		"RES.002": {
 			Item:     "RES.002",
-			Severity: "L4",
+			Severity: "L0",
 			Summary:  "未使用 ORDER BY 的 LIMIT 查询",
 			Content:  `没有 ORDER BY 的 LIMIT 会导致非确定性的结果，这取决于查询执行计划。`,
 			Case:     "select col1,col2 from tbl where name=xx limit 10",
