@@ -1,40 +1,32 @@
-# ![SOAR](https://raw.githubusercontent.com/XiaoMi/soar/master/doc/images/logo.png)
+# SOAR 源码安装
+## 依赖软件
+### 一般依赖
+Go 1.10+
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xiaomi-dba/soar)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://github.com/XiaoMi/soar/blob/master/LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/XiaoMi/soar)](https://goreportcard.com/report/github.com/XiaoMi/soar)
-[![Build Status](https://travis-ci.org/XiaoMi/soar.svg?branch=master)](https://travis-ci.org/XiaoMi/soar)
-[![GoDoc](https://godoc.org/github.com/XiaoMi/soar?status.svg)](https://godoc.org/github.com/XiaoMi/soar)
+git
+## 高级依赖（仅面向开发人员）
+```
+mysql 客户端版本需要与容器中MySQL版本相同，避免出现由于认证原因导致无法连接问题
+docker MySQL Server测试容器管理
+govendor Go包管理
+retool 依赖外部代码质量静态检查工具二进制文件管理
+生成二进制文件
+go get -d github.com/XiaoMi/soar
+cd ${GOPATH}/src/github.com/XiaoMi/soar && make
+```
 
-[Docs](http://github.com/XiaoMi/soar/tree/master/doc) | [FAQ](http://github.com/XiaoMi/soar/blob/master/doc/FAQ_en.md) | [中文](http://github.com/XiaoMi/soar/blob/master/README.md)
-
-## SOAR
-
-SOAR (SQL Optimizer And Rewriter) is a tool, which can help SQL optimization and rewrite. It's developed and maintained by the DBA Team of Xiaomi AI&Cloud.
-
-## Features
-
-* Cross-platform support, such as Linux, Mac, and Windows
-* Support Heuristic Rules Suggestion
-* Support Complicate SQL Indexing Optimize
-* Support EXPLAIN analyze for query plan
-* Support SQL fingerprint, compress and built-in pretty print
-* Support merge multi ALTER query into one SQL
-* Support self-config rewrite rules from SQL Rewrite
-* Suggestions were written in Chinese. But SOAR also gives many tools, which can be used without understanding Chinese.
-
-## QuickStart
-
-* [Install](http://github.com/XiaoMi/soar/blob/master/doc/install_en.md)
-* [CheatSheet](http://github.com/XiaoMi/soar/blob/master/doc/cheatsheet_en.md)
-* [Related works](http://github.com/XiaoMi/soar/blob/master/doc/comparison_en.md)
-
-## Communication
-
-* GitHub issues: bug reports, usage issues, feature requests
-* [Gitter](https://gitter.im/xiaomi-dba/soar)
-* IM QQ Group: 779359816
-
-## License
-
-[Apache License 2.0](https://github.com/XiaoMi/soar/blob/master/LICENSE).
+## 开发调试
+##### 如下指令如果您没有精力参与SOAR的开发可以跳过
+```
+make deps 依赖检查
+make vitess 升级Vitess Parser依赖
+make tidb 升级TiDB Parser依赖
+make fmt 代码格式化，统一风格
+make lint 代码质量检查
+make docker 启动一个MySQL测试容器，可用于测试依赖元数据检查的功能或不同版本MySQL差异
+make test 运行所有的测试用例
+make cover 代码测试覆盖度检查
+make doc 自动生成命令行参数中-list-XX相关文档
+make daily 每日构建，时刻跟进Vitess, TiDB依赖变化
+make release 生成Linux, Windows, Mac发布版本
+```
