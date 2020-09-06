@@ -11,8 +11,8 @@ docker MySQL Server测试容器管理
 govendor Go包管理
 retool 依赖外部代码质量静态检查工具二进制文件管理
 生成二进制文件
-go get -d github.com/XiaoMi/soar
-cd ${GOPATH}/src/github.com/XiaoMi/soar && make
+go get -d https://github.com/m-sql/soar
+cd ${GOPATH}/src/github.com/m-sql/soarr && make
 ```
 
 ## 开发调试
