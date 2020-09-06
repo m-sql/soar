@@ -12,7 +12,7 @@ govendor Go包管理
 retool 依赖外部代码质量静态检查工具二进制文件管理
 生成二进制文件
 go get -d https://github.com/m-sql/soar
-cd ${GOPATH}/src/github.com/m-sql/soarr && make
+cd ${GOPATH}/src/github.com/m-sql/soar && make
 ```
 
 ## 开发调试
