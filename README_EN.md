@@ -29,7 +29,9 @@ make doc 自动生成命令行参数中-list-XX相关文档
 make daily 每日构建，时刻跟进Vitess, TiDB依赖变化
 make release 生成Linux, Windows, Mac发布版本
 ```
+
 ## 安装验证
 ```
 echo 'select * from film' | ./soar
 ```
+
