@@ -36,7 +36,7 @@ var tablesSuggests map[string][]string
 // Item: EXP.XXX
 // Severity: L[0-8]
 // Summary: full table scan, not use index, full index scan...
-// Content: XX TABLE xxx
+// Content: XX TABLE xxxx
 
 // checkExplainSelectType
 func checkExplainSelectType(exp *database.ExplainInfo) {

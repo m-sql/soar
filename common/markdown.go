@@ -148,6 +148,6 @@ func Score(score int) string {
 	}
 	s1Count := score / 20
 	s2Count := 5 - s1Count
-	str := fmt.Sprintf("%s %d分", strings.TrimSpace(strings.Repeat(s1, s1Count)+strings.Repeat(s2, s2Count)), score)
+	str := fmt.Sprintf("%s %d分(msql)", strings.TrimSpace(strings.Repeat(s1, s1Count)+strings.Repeat(s2, s2Count)), score)
 	return str
 }

@@ -178,7 +178,7 @@ func init() {
 		},
 		"ARG.001": {
 			Item:     "ARG.001",
-			Severity: "L4",
+			Severity: "L5",
 			Summary:  "不建议使用前项通配符查找",
 			Content:  `例如 "％foo"，查询参数有一个前项通配符的情况无法使用已有索引。`,
 			Case:     "select c1,c2,c3 from tbl where name like '%foo'",
@@ -194,7 +194,7 @@ func init() {
 		},
 		"ARG.003": {
 			Item:     "ARG.003",
-			Severity: "L15",
+			Severity: "L10",
 			Summary:  "参数比较包含隐式转换，无法使用索引，因为定义字段是字符串！！！",
 			Content:  "隐式类型转换有无法命中索引的风险，在高并发、大数据量的情况下，命不中索引带来的后果非常严重。",
 			Case:     "SELECT * FROM sakila.film WHERE length >= '60';",
@@ -219,7 +219,7 @@ func init() {
 		},
 		"ARG.005": {
 			Item:     "ARG.005",
-			Severity: "L1",
+			Severity: "L3",
 			Summary:  "IN 要慎用，元素过多会导致全表扫描",
 			Content:  ` 如：select id from t where num in(1,2,3)对于连续的数值，能用 BETWEEN 就不要用 IN 了：select id from t where num between 1 and 3。而当 IN 值过多时 MySQL 也可能会进入全表扫描导致性能急剧下降。`,
 			Case:     "select id from t where num in(1,2,3)",
@@ -227,7 +227,7 @@ func init() {
 		},
 		"ARG.006": {
 			Item:     "ARG.006",
-			Severity: "L1",
+			Severity: "L4",
 			Summary:  "应尽量避免在 WHERE 子句中对字段进行 NULL 值判断",
 			Content:  `使用 IS NULL 或 IS NOT NULL 将可能导致引擎放弃使用索引而进行全表扫描，如：select id from t where num is null;可以在num上设置默认值0，确保表中 num 列没有 NULL 值，然后这样查询： select id from t where num=0;`,
 			Case:     "select id from t where num is null",
@@ -235,7 +235,7 @@ func init() {
 		},
 		"ARG.007": {
 			Item:     "ARG.007",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "避免使用模式匹配",
 			Content:  `性能问题是使用模式匹配操作符的最大缺点。使用 LIKE 或正则表达式进行模式匹配进行查询的另一个问题，是可能会返回意料之外的结果。最好的方案就是使用特殊的搜索引擎技术来替代 SQL，比如 Apache Lucene。另一个可选方案是将结果保存起来从而减少重复的搜索开销。如果一定要使用SQL，请考虑在 MySQL 中使用像 FULLTEXT 索引这样的第三方扩展。但更广泛地说，您不一定要使用SQL来解决所有问题。`,
 			Case:     "select c_id,c2,c3 from tbl where c2 like 'test%'",
@@ -243,7 +243,7 @@ func init() {
 		},
 		"ARG.008": {
 			Item:     "ARG.008",
-			Severity: "L1",
+			Severity: "L4",
 			Summary:  "OR 查询索引列时请尽量使用 IN 谓词",
 			Content:  `IN-list 谓词可以用于索引检索，并且优化器可以对 IN-list 进行排序，以匹配索引的排序序列，从而获得更有效的检索。请注意，IN-list 必须只包含常量，或在查询块执行期间保持常量的值，例如外引用。`,
 			Case:     "SELECT c1,c2,c3 FROM tbl WHERE c1 = 14 OR c1 = 17",
@@ -267,7 +267,7 @@ func init() {
 		},
 		"ARG.011": {
 			Item:     "ARG.011",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "不要使用负向查询，如：NOT IN/NOT LIKE",
 			Content:  `请尽量不要使用负向查询，这将导致全表扫描，对查询性能影响较大。`,
 			Case:     "select id from t where num not in(1,2,3);",
@@ -291,7 +291,7 @@ func init() {
 		},
 		"CLA.002": {
 			Item:     "CLA.002",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "不建议使用 ORDER BY RAND()",
 			Content:  `ORDER BY RAND() 是从结果集中检索随机行的一种非常低效的方法，因为它会对整个结果进行排序并丢弃其大部分数据。`,
 			Case:     "select name from tbl where id < 1000 order by rand(number)",
@@ -331,7 +331,7 @@ func init() {
 		},
 		"CLA.007": {
 			Item:     "CLA.007",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "ORDER BY 语句对多个不同条件使用不同方向的排序无法使用索引",
 			Content:  `ORDER BY 子句中的所有表达式必须按统一的 ASC 或 DESC 方向排序，以便利用索引。`,
 			Case:     "select c1,c2,c3 from t1 where c1='foo' order by c2 desc, c3 asc",
@@ -347,7 +347,7 @@ func init() {
 		},
 		"CLA.009": {
 			Item:     "CLA.009",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "ORDER BY 的条件为表达式",
 			Content:  `当 ORDER BY 条件为表达式或函数时会使用到临时表，如果在未指定 WHERE 或 WHERE 条件返回的结果集较大时性能会很差。`,
 			Case:     "select description from film where title ='ACADEMY DINOSAUR' order by length-language_id;",
@@ -355,7 +355,7 @@ func init() {
 		},
 		"CLA.010": {
 			Item:     "CLA.010",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "GROUP BY 的条件为表达式",
 			Content:  `当 GROUP BY 条件为表达式或函数时会使用到临时表，如果在未指定 WHERE 或 WHERE 条件返回的结果集较大时性能会很差。`,
 			Case:     "select description from film where title ='ACADEMY DINOSAUR' GROUP BY length-language_id;",
@@ -371,7 +371,7 @@ func init() {
 		},
 		"CLA.012": {
 			Item:     "CLA.012",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "将复杂的裹脚布式查询分解成几个简单的查询",
 			Content:  `SQL是一门极具表现力的语言，您可以在单个SQL查询或者单条语句中完成很多事情。但这并不意味着必须强制只使用一行代码，或者认为使用一行代码就搞定每个任务是个好主意。通过一个查询来获得所有结果的常见后果是得到了一个笛卡儿积。当查询中的两张表之间没有条件限制它们的关系时，就会发生这种情况。没有对应的限制而直接使用两张表进行联结查询，就会得到第一张表中的每一行和第二张表中的每一行的一个组合。每一个这样的组合就会成为结果集中的一行，最终您就会得到一个行数很多的结果集。重要的是要考虑这些查询很难编写、难以修改和难以调试。数据库查询请求的日益增加应该是预料之中的事。经理们想要更复杂的报告以及在用户界面上添加更多的字段。如果您的设计很复杂，并且是一个单一查询，要扩展它们就会很费时费力。不论对您还是项目来说，时间花在这些事情上面不值得。将复杂的意大利面条式查询分解成几个简单的查询。当您拆分一个复杂的SQL查询时，得到的结果可能是很多类似的查询，可能仅仅在数据类型上有所不同。编写所有的这些查询是很乏味的，因此，最好能够有个程序自动生成这些代码。SQL代码生成是一个很好的应用。尽管SQL支持用一行代码解决复杂的问题，但也别做不切实际的事情。`,
 			Case:     "这是一条很长很长的 SQL，案例略。",
@@ -402,7 +402,7 @@ func init() {
 		*/
 		"CLA.013": {
 			Item:     "CLA.013",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "不建议使用 HAVING 子句",
 			Content:  `将查询的 HAVING 子句改写为 WHERE 中的查询条件，可以在查询处理期间使用索引。`,
 			Case:     "SELECT s.c_id,count(s.c_id) FROM s where c = test GROUP BY s.c_id HAVING s.c_id <> '1660' AND s.c_id <> '2' order by s.c_id",
@@ -588,7 +588,7 @@ func init() {
 		},
 		"DIS.001": {
 			Item:     "DIS.001",
-			Severity: "L1",
+			Severity: "L4",
 			Summary:  "消除不必要的 DISTINCT 条件",
 			Content:  `太多DISTINCT条件是复杂的裹脚布式查询的症状。考虑将复杂查询分解成许多简单的查询，并减少DISTINCT条件的数量。如果主键列是列的结果集的一部分，则DISTINCT条件可能没有影响。`,
 			Case:     "SELECT DISTINCT c.c_id,count(DISTINCT c.c_name),count(DISTINCT c.c_e),count(DISTINCT c.c_n),count(DISTINCT c.c_me),c.c_d FROM (select distinct id, name from B) as e WHERE e.country_id = c.country_id",
@@ -596,7 +596,7 @@ func init() {
 		},
 		"DIS.002": {
 			Item:     "DIS.002",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "COUNT(DISTINCT) 多列时结果可能和你预想的不同",
 			Content:  `COUNT(DISTINCT col) 计算该列除NULL之外的不重复行数，注意 COUNT(DISTINCT col, col2) 如果其中一列全为 NULL 那么即使另一列有不同的值，也返回0。`,
 			Case:     "SELECT COUNT(DISTINCT col, col2) FROM tbl;",
@@ -614,7 +614,7 @@ func init() {
 		},
 		"FUN.001": {
 			Item:     "FUN.001",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "避免在 WHERE 条件中使用函数或其他运算符",
 			Content:  `虽然在 SQL 中使用函数可以简化很多复杂的查询，但使用了函数的查询无法利用表中已经建立的索引，该查询将会是全表扫描，性能较差。通常建议将列名写在比较运算符左侧，将查询过滤条件放在比较运算符右侧。也不建议在查询比较条件两侧书写多余的括号，这会对阅读产生比较大的困扰。`,
 			Case:     "select id from t where substring(name,1,3)='abc'",
@@ -694,7 +694,7 @@ func init() {
 		},
 		"JOI.001": {
 			Item:     "JOI.001",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "JOIN 语句混用逗号和 ANSI 模式",
 			Content:  `表连接的时候混用逗号和 ANSI JOIN 不便于人类理解，并且MySQL不同版本的表连接行为和优先级均有所不同，当 MySQL 版本变化后可能会引入错误。`,
 			Case:     "select c1,c2,c3 from t1,t2 join t3 on t1.c1=t2.c1,t1.c3=t3,c1 where id>1000",
@@ -726,7 +726,7 @@ func init() {
 		},
 		"JOI.005": {
 			Item:     "JOI.005",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "减少 JOIN 的数量",
 			Content:  `太多的 JOIN 是复杂的裹脚布式查询的症状。考虑将复杂查询分解成许多简单的查询，并减少 JOIN 的数量。`,
 			Case:     "select bp1.p_id, b1.d_d as l, b1.b_id from b1 join bp1 on (b1.b_id = bp1.b_id) left outer join (b1 as b2 join bp2 on (b2.b_id = bp2.b_id)) on (bp1.p_id = bp2.p_id ) join bp21 on (b1.b_id = bp1.b_id) join bp31 on (b1.b_id = bp1.b_id) join bp41 on (b1.b_id = bp1.b_id) where b2.b_id = 0",
@@ -840,7 +840,7 @@ func init() {
 		},
 		"KWR.001": {
 			Item:     "KWR.001",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "SQL_CALC_FOUND_ROWS 效率低下",
 			Content:  `因为 SQL_CALC_FOUND_ROWS 不能很好地扩展，所以可能导致性能问题; 建议业务使用其他策略来替代 SQL_CALC_FOUND_ROWS 提供的计数功能，比如：分页结果展示等。`,
 			Case:     "select SQL_CALC_FOUND_ROWS col from tbl where id>1000",
@@ -864,7 +864,7 @@ func init() {
 		},
 		"KWR.004": {
 			Item:     "KWR.004",
-			Severity: "L1",
+			Severity: "L4",
 			Summary:  "不建议使用使用多字节编码字符(中文)命名",
 			Content:  `为库、表、列、别名命名时建议使用英文，数字，下划线等字符，不建议使用中文或其他多字节编码字符。`,
 			Case:     "select col as 列 from tb",
@@ -872,7 +872,7 @@ func init() {
 		},
 		"LCK.001": {
 			Item:     "LCK.001",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "INSERT INTO xx SELECT 加锁粒度较大请谨慎",
 			Content:  `INSERT INTO xx SELECT 加锁粒度较大请谨慎`,
 			Case:     "INSERT INTO tbl SELECT * FROM tbl2;",
@@ -880,7 +880,7 @@ func init() {
 		},
 		"LCK.002": {
 			Item:     "LCK.002",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "请慎用 INSERT ON DUPLICATE KEY UPDATE",
 			Content:  `当主键为自增键时使用 INSERT ON DUPLICATE KEY UPDATE 可能会导致主键出现大量不连续快速增长，导致主键快速溢出无法继续写入。极端情况下还有可能导致主从数据不一致。`,
 			Case:     "INSERT INTO t1(a,b,c) VALUES (1,2,3) ON DUPLICATE KEY UPDATE c=c+1;",
@@ -904,7 +904,7 @@ func init() {
 		},
 		"LIT.003": {
 			Item:     "LIT.003",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "一列中存储一系列相关数据的集合",
 			Content:  `将 ID 存储为一个列表，作为 VARCHAR/TEXT 列，这样能导致性能和数据完整性问题。查询这样的列需要使用模式匹配的表达式。使用逗号分隔的列表来做多表联结查询定位一行数据是极不优雅和耗时的。这将使验证 ID 更加困难。考虑一下，列表最多支持存放多少数据呢？将 ID 存储在一张单独的表中，代替使用多值属性，从而每个单独的属性值都可以占据一行。这样交叉表实现了两张表之间的多对多关系。这将更好地简化查询，也更有效地验证ID。`,
 			Case:     "select c1,c2,c3,c4 from tab1 where col_id REGEXP '[[:<:]]12[[:>:]]'",
@@ -1083,7 +1083,7 @@ func init() {
 		// http://www.winwire.com/25-tips-to-improve-sql-query-performance/
 		"SUB.004": {
 			Item:     "SUB.004",
-			Severity: "L3",
+			Severity: "L4",
 			Summary:  "执行计划中嵌套连接深度过深",
 			Content:  `MySQL对子查询的优化效果不佳,MySQL将外部查询中的每一行作为依赖子查询执行子查询。 这是导致严重性能问题的常见原因。`,
 			Case:     "SELECT * from tb where id in (select id from (select id from tb))",
@@ -1100,7 +1100,7 @@ func init() {
 		},
 		"SUB.006": {
 			Item:     "SUB.006",
-			Severity: "L2",
+			Severity: "L4",
 			Summary:  "不建议在子查询中使用函数",
 			Content:  `MySQL将外部查询中的每一行作为依赖子查询执行子查询，如果在子查询中使用函数，即使是semi-join也很难进行高效的查询。可以将子查询重写为OUTER JOIN语句并用连接条件对数据进行过滤。`,
 			Case:     "SELECT * FROM staff WHERE name IN (SELECT max(NAME) FROM customer)",
