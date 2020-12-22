@@ -1,6 +1,6 @@
 module github.com/XiaoMi/soar
 
-go 1.14
+go 1.15
 
 require (
 	github.com/CorgiMan/json2 v0.0.0-20150213135156-e72957aba209
